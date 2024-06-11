@@ -2,11 +2,14 @@ package core
 
 import (
 	"encoding/hex"
+	"encoding/binary"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"path"
 	"strconv"
+	"time"
 
 	"github.com/bmatsuo/lmdb-go/lmdb"
 )
@@ -174,13 +177,19 @@ func (c *Context) Output(data []byte) {
 			readableCharacters++
 		}
 	}
-	if readableCharacters > n*2/3 {
+	
+  if readableCharacters > n*4/5 {
 		sdata := string(data)
 		quoted := strconv.QuoteToASCII(sdata)
 		if quoted[1:len(quoted)-1] != sdata {
 			data = []byte(quoted)
 		}
 		c.writer.Write(data)
+	} else if n == 8 {
+		c.writer.Write([]byte("0x" + hex.EncodeToString(data)))
+    k := binary.BigEndian.Uint64(data)
+    id, ts := (k & 0x00ffff0000000000) >> 40, time.UnixMilli(int64(k & 0x000000ffffffffff) + 1704067200000)
+		c.writer.Write([]byte(fmt.Sprintf(" = attribute: %v, timestamp: %v", id, ts)))
 	} else {
 		c.writer.Write([]byte("0x" + hex.EncodeToString(data)))
 	}

@@ -35,17 +35,16 @@ type Command interface {
 }
 
 func init() {
-	cmds["del"] = commands.Del{}
+	// cmds["del"] = commands.Del{}
 	cmds["exists"] = commands.Exists{}
 	cmds["get"] = commands.Get{}
 	cmds["info"] = commands.Stats{}
 	cmds["it"] = commands.Iterate{}
-	cmds["put"] = commands.Put{}
+	// cmds["put"] = commands.Put{}
 	cmds["scan"] = commands.Scan{}
-	cmds["set"] = commands.Put{}
+	// cmds["set"] = commands.Put{}
 	cmds["stat"] = commands.Stats{}
 	cmds["stats"] = commands.Stats{}
-	cmds["use"] = commands.Use{}
 	cmds["keys"] = commands.Keys{}
 	cmds["help"] = commands.Help{}
 	cmds["ascii"] = commands.Ascii{}

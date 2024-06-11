@@ -38,8 +38,10 @@ func (cmd Iterate) execute(context *core.Context, first bool) (err error) {
 			context.CloseCursor()
 			return err
 		}
+		context.Output([]byte("Key: "))
 		context.Output(key)
 		if cursor.IncludeValues {
+			context.Output([]byte("Value: "))
 			context.Output(value)
 			context.Output(nil)
 		}
